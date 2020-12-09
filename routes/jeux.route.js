@@ -7,7 +7,7 @@ const express = require("express")
  
 // Machine
 router.get('/liste-machine', machineController.getListeMachinePage);
-
+router.get('/ajoute-machine', machineController.getAjouteMachinePage);
 // Editeur
 router.get('/liste-Editeur', editeurController.getListeEditeurPage);
 

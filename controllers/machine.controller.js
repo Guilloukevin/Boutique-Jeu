@@ -13,3 +13,13 @@ exports.getListeMachinePage = async (req, res) => {
       res.send(e)
     }
   };
+
+exports.getAjouteMachinePage = async (req, res) => {
+    
+    try {
+    res.render('machine/ajouterMachine');
+        } 
+    catch (e) {
+    res.send(e)
+    }
+};

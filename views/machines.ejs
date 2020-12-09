@@ -1,0 +1,30 @@
+<%- include('./partials/head')-%>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Liste des consoles.</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% consoles.forEach(function(console) {%>
+                <tr>
+                    <th scope="row"><%=console.machineId%></th>
+                    <td><%=console.Nom%></td>
+                    <td>
+                        <button type="button" class="btn btn-primary">Editer</button>
+                        <button type="button" class="btn btn-danger">Supprimer</button>
+                    </td>
+                </tr>
+            <%});%>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+  <%- include('./partials/footer')-%>

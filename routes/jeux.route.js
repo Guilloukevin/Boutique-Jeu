@@ -8,6 +8,7 @@ const express = require("express")
 // Machine
 router.get('/liste-machine', machineController.getListeMachinePage);
 router.get('/ajoute-machine', machineController.getAjouteMachinePage);
+router.post('/ajoute-machine', machineController.postAjouteMachinePage);
 // Editeur
 router.get('/liste-Editeur', editeurController.getListeEditeurPage);
 

@@ -36,10 +36,12 @@ global.query = query;
 // Router
 const indexRoute = require('./routes/index.route');
 const jeuxRoute = require('./routes/jeux.route');
+const authentificationRoute = require('./routes/authentification.route');
 
 // URL
 app.use('/', indexRoute);
 app.use('/jeux', jeuxRoute);
+app.use('/authentification', authentificationRoute);
 
 // 404
 app.get('*', function(req, res, next){

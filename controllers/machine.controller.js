@@ -5,15 +5,13 @@ exports.getListeMachinePage = async (req, res) => {
   try {
     res.render('machine/machines', { 
         consoles : machines
-        //machines : machines
-    //  console : machines
-    // categories
     });
   } catch (e) {
     res.send(e)
   }
 };
 
+// Methode GET : Afficher le formulaire
 exports.getAjouteMachinePage = async (req, res) => {
   try {
   res.render('machine/ajouterMachine');
@@ -23,10 +21,8 @@ exports.getAjouteMachinePage = async (req, res) => {
   }
 };
 
+// Methode POST : Ajouter une machine 
 exports.postAjouteMachinePage = async (req, res) => {
-  /* const name = req.body.nom;
-  await query ("INSERT INTO machine (Nom) values ('"+name+"')"); */
-  
   try {
       const name = req.body.nom
       // Hasher le mot de passe
@@ -34,9 +30,10 @@ exports.postAjouteMachinePage = async (req, res) => {
         if(err) {
           res.status(400).json({message : err })
         }
-        res.redirect("/jeux/liste-machine")
+        res.redirect("/machine/liste-machine")
       } )
     } catch (err) {
       res.status(400).json({message : err })
     }
-};
+}; 
+

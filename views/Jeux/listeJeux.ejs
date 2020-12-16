@@ -1,0 +1,38 @@
+<%- include('../partials/head')-%>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Liste des Jeux.</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Prix</th>
+            <th scope="col">Editeur</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% consoles.forEach(function(console) {%>
+                <tr>
+                    <th scope="row"><%=console.JeuId%></th>
+                    <td><%=console.Titre%></td>
+                    <td><%=console.Prix%></td>
+                    <td><%=console.editeurId%></td>
+                    <td>
+                        
+                        <button type="button" class="btn btn-primary">Editer</button>
+                        <button type="button" class="btn btn-danger">Supprimer</button>
+                    </td>
+                </tr>
+            <%});%>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-12">
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+    </div>
+  </div>
+</div>
+  <%- include('../partials/footer')-%>

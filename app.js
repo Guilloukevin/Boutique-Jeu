@@ -37,13 +37,14 @@ global.query = query;
 const indexRoute = require('./routes/index.route');
 const machineRoute = require('./routes/machine.route');
 const jeuxRoute = require('./routes/jeux.route');
+const authRoute = require('./routes/auth.Route');
 
 // URL
 app.use('/', indexRoute);
 app.use('/machine', machineRoute);
 app.use('/jeux', jeuxRoute);
-
-
+app.use('/auth', authRoute);
+console.log('Ici je suis dans le app qui va charger le route pour lurl Auth')
 // 404
 app.get('*', function(req, res, next){
   res.status(404);

@@ -1,7 +1,6 @@
 exports.getListeMachinePage = async (req, res) => {
     
   const machines  = await query( 'SELECT Nom, machineId FROM machine')
-  console.log('machines :', machines)
   try {
     res.render('machine/machines', { 
         consoles : machines

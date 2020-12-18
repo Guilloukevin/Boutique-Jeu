@@ -15,7 +15,4 @@ router.post('/ajoute-machine', machineController.postAjouteMachinePage);
 router.get('/liste-Editeur', editeurController.getListeEditeurPage);
 
 
-
-
-
 module.exports = router;

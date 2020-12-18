@@ -1,0 +1,39 @@
+<%- include('../partials/head')-%>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Ajouter un jeux.</h1>
+      <form action="" method="POST">
+        <div class="mb-3">
+          <label class="form-label">Titre</label>
+          <input type="text" class="form-control" name="nom">
+          <label class="form-label">Editeur</label>
+          <select class="form-control" id="exampleFormControlSelect1" name="editeur">
+            <option value="1">Ubisoft</option>
+            <option value="2">Electronic Arts</option>
+            <option value="3">Valve Software</option>
+            <option value="4">Activision</option>
+            <option value="5">Capcom</option>
+            <option value="6">Konami</option>
+            <option value="7">Square Enix</option>
+            <option value="8">Infinity Ward</option>
+            <option value="9">Nintendo</option>
+          </select>
+          <label class="form-label">Prix</label>
+          <input type="number" class="form-control" name="prix">
+          <label class="form-label">Pegi</label>
+          <input type="number" class="form-control" name="pegi">
+          <label class="form-label">Description</label>
+          <input type="text" class="form-control" name="description">
+          <label class="form-label">Année</label>
+          <input type="date" class="form-control" name="annee">
+          <label class="form-label">Quantite</label>
+          <input type="number" class="form-control" name="quantite">
+          
+        </div>
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+      </form>
+    </div>
+  </div>
+</div>
+  <%- include('../partials/footer')-%>

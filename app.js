@@ -4,6 +4,7 @@ const express = require('express')
 ,     util = require('util')
 ,     path = require('path')
 ,     port = 3000
+,     session = require('express-session');
 
 // .env
 require('dotenv').config()
@@ -11,6 +12,14 @@ require('dotenv').config()
 // Middleware - Parser
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
+// Session
+app.use(session({
+  secret: 'shhuuuuut',
+  resave: false,
+  saveUninitialized: true,
+  name: 'biscuit',
+ // cookie: { maxAge: 60000 }
+}))
 
 // EJS
 app.set('view engine', 'ejs');
@@ -31,7 +40,7 @@ db.connect((err) => {
 });
 
 const query = util.promisify(db.query).bind(db);
-global.query = query;
+global.querySql = query;
 
 // Router
 const indexRoute = require('./routes/index.route');
@@ -44,7 +53,6 @@ app.use('/', indexRoute);
 app.use('/machine', machineRoute);
 app.use('/jeux', jeuxRoute);
 app.use('/auth', authRoute);
-console.log('Ici je suis dans le app qui va charger le route pour lurl Auth')
 // 404
 app.get('*', function(req, res, next){
   res.status(404);

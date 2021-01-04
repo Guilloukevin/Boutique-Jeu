@@ -15,26 +15,30 @@ exports.postRegisterPage = async (req, res) => {
     // const motdepasse = req.body.motdepasse
     // const role = req.body.role
 
-    // Parser les données
+    // 1 - Parser les données
     const { nom, prenom, email, motdepasse, role } = req.body
 
-    // Si l'email existe    
+    // 2 - Si l'email existe    
     const emailExiste = await querySql ('SELECT COUNT(*) AS cnt FROM utilisateur WHERE Mail = ? ', [email])
-    if (emailExiste.length > 0) {
+    if (emailExiste[0].cnt > 0) {
         req.flash('message', 'L\'email existe deja')
         return res.redirect('/auth/register')
     }
 
-    // Hasher le mot de passe
-    const salt = await bcrypt.genSalt(10);
-    const mot_de_passe_hasher = await bcrypt.hash(motdepasse, salt);
-    // res.send(`Le mot de passe hasher est : ${mot_de_passe_hasher}`)
-
+    // 3 - Ajouter l'utilisateur dans la base de donnée
     try {
-        // Ajouter l'utilisateur dans la base de donnée
+        // 4 - Hasher le mot de passe
+        const salt = await bcrypt.genSalt(10);
+        const mot_de_passe_hasher = await bcrypt.hash(motdepasse, salt);
+        // res.send(`Le mot de passe hasher est : ${mot_de_passe_hasher}`)
         await querySql ('INSERT INTO utilisateur (Nom,Prenom,Mail,motDePasse,roleId) VALUES (?,?,?,?,? )', [nom,prenom,email,mot_de_passe_hasher,role], 
         (err, result) => {
-            res.render('authentification/registerSuccess')
+            if(err) {
+                req.flash("message", `Il y a une erreur ${err}`);
+                return res.redirect('/auth/register')
+              }
+              req.flash("message", "Inscription avec succès !");
+              return res.redirect('/auth/login')
         } )
     } 
     catch (err) {
@@ -42,8 +46,9 @@ exports.postRegisterPage = async (req, res) => {
       }
 };
 
+// GET  Afficher la page de connection
 exports.getLoginPage = async (req, res) => {
-    res.render('authentification/login')
+    res.render('authentification/login', { message: req.flash("message")})
 };
 
 exports.postLoginPage = async (req, res) => {

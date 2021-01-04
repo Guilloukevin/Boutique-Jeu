@@ -53,24 +53,20 @@ exports.getLoginPage = async (req, res) => {
 
 // POST S'authentifier 
 exports.postLoginPage = async (req, res) => {
-    const {email, password} = req.body;
+    const {email, motdepasse} = req.body;
 
-    // Si l'email n'existe pas
+    // 1 - Si l'email n'existe pas
     const findEmail = await querySql('SELECT COUNT(*) AS cnt FROM utilisateur WHERE Mail = ?', email)
     if (!findEmail[0].cnt > 0) {
       req.flash("message", "Aucun utilisateur avec cet email")
       return res.redirect('/auth/login')
     }
 
-     // Vérifier le mot de passe
+     // 2 - Vérifier le mot de passe
      const user = await querySql('SELECT UtilisateurId, Mail, motDePasse FROM utilisateur WHERE Mail = ?', email)
-     console.log('user', user)
-     await bcrypt.compare(password, user[0].motDePasse, (res, success) => {
-         console.log('success', success)
-         if (success) {
-             console.log('Mot de passe correcte !')
-         } else {
-             console.log('Mot de passe incorrect')
-         }
-     })
+     const passwordCheck = await bcrypt.compare(motdepasse, user[0].motDePasse)
+    if(!passwordCheck) {
+    req.flash("message", "Mot de passe incorret")
+    return res.redirect('/auth/login')
+   }
 };

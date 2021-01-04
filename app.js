@@ -4,7 +4,11 @@ const express = require('express')
 ,     util = require('util')
 ,     path = require('path')
 ,     port = 3000
-,     session = require('express-session');
+,     session = require('express-session')
+,     connectFlash = require('connect-flash');
+
+// Active les messages Flash
+app.use(connectFlash());
 
 // .env
 require('dotenv').config()

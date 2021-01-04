@@ -1,23 +1,30 @@
 const bcrypt = require("bcrypt");
 
+// GET -  Afficher la page d'inscription 
 exports.getRegisterPage = async (req, res) => {
-    res.render('authentification/register')
+    res.render('authentification/register', { message: req.flash("message")})
     // Envoie dans le dossier views
 };
 
+// POST - Créer un utilisateur 
 exports.postRegisterPage = async (req, res) => {
     // Middleware : body parser, Parser les données dans l'url
-    const nom = req.body.nom
-    const prenom = req.body.prenom
-    const email = req.body.email
-    const motdepasse = req.body.motdepasse
-    const role = req.body.role
+    // const nom = req.body.nom
+    // const prenom = req.body.prenom
+    // const email = req.body.email
+    // const motdepasse = req.body.motdepasse
+    // const role = req.body.role
+
+    // Parser les données
+    const { nom, prenom, email, motdepasse, role } = req.body
 
     // Si l'email existe    
-    const emailExiste = await querySql ('SELECT Mail From utilisateur WHERE Mail = ?', [email])
+    const emailExiste = await querySql ('SELECT COUNT(*) AS cnt FROM utilisateur WHERE Mail = ? ', [email])
     if (emailExiste.length > 0) {
-        return res.send('Email existe deja ')
+        req.flash('message', 'L\'email existe deja')
+        return res.redirect('/auth/register')
     }
+
     // Hasher le mot de passe
     const salt = await bcrypt.genSalt(10);
     const mot_de_passe_hasher = await bcrypt.hash(motdepasse, salt);

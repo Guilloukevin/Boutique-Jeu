@@ -16,13 +16,16 @@ require('dotenv').config()
 // Middleware - Parser
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
+
 // Session
 app.use(session({
   secret: 'shhuuuuut',
   resave: false,
   saveUninitialized: true,
   name: 'biscuit',
- // cookie: { maxAge: 60000 }
+  cookie: {
+    maxAge: 1000 * 60 * 60 *24 // 24 heures
+  }
 }))
 
 // EJS

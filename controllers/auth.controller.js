@@ -81,3 +81,9 @@ exports.postLoginPage = async (req, res) => {
               return res.redirect('/');
    }
 };
+// 1 -  Se deconnecter
+exports.getLogoutPage = async (req, res) => {
+    req.session.destroy(function(err) {
+      res.redirect("/auth/login");
+   })
+  }

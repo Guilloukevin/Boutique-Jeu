@@ -14,4 +14,7 @@ router.get('/login', authController.getLoginPage);
 // Methode post : Formulaire de connection
 router.post('/login', authController.postLoginPage);
 
+// Methode get : Se deconnecter
+router.get('/logout', authController.getLogoutPage);
+
 module.exports = router;

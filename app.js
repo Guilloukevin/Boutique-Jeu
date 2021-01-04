@@ -5,7 +5,8 @@ const express = require('express')
 ,     path = require('path')
 ,     port = 3000
 ,     session = require('express-session')
-,     connectFlash = require('connect-flash');
+,     connectFlash = require('connect-flash')
+,     MySQLStore = require('express-mysql-session')(session);
 
 // Active les messages Flash
 app.use(connectFlash());
@@ -16,21 +17,6 @@ require('dotenv').config()
 // Middleware - Parser
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
-
-// Session
-app.use(session({
-  secret: 'shhuuuuut',
-  resave: false,
-  saveUninitialized: true,
-  name: 'biscuit',
-  cookie: {
-    maxAge: 1000 * 60 * 60 *24 // 24 heures
-  }
-}))
-
-// EJS
-app.set('view engine', 'ejs');
-app.use(express.static(path.join(__dirname, 'public')));
 
 // MySQL
 const db =  mysql.createConnection(
@@ -48,6 +34,26 @@ db.connect((err) => {
 
 const query = util.promisify(db.query).bind(db);
 global.querySql = query;
+
+// Express Session MySQL
+var sessionStore = new MySQLStore({}, db);
+
+// Session
+app.use(session({
+  secret: 'shhuuuuut',
+  resave: false,
+  saveUninitialized: true,
+  store: sessionStore,
+  name: 'biscuit',
+  cookie: {
+    maxAge: 1000 * 60 * 60 *24 // 24 heures
+  }
+}))
+
+// EJS
+app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Router
 const indexRoute = require('./routes/index.route');

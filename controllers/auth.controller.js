@@ -51,12 +51,16 @@ exports.getLoginPage = async (req, res) => {
     res.render('authentification/login', { message: req.flash("message")})
 };
 
+// POST S'authentifier 
 exports.postLoginPage = async (req, res) => {
     const {email, password} = req.body;
 
     // Si l'email n'existe pas
     const findEmail = await querySql('SELECT COUNT(*) AS cnt FROM utilisateur WHERE Mail = ?', email)
-    if (!findEmail[0].cnt > 0) return res.status(400).json({message: "Il n'y a pas d'utilisateur avec cet email"})
+    if (!findEmail[0].cnt > 0) {
+      req.flash("message", "Aucun utilisateur avec cet email")
+      return res.redirect('/auth/login')
+    }
 
      // Vérifier le mot de passe
      const user = await querySql('SELECT UtilisateurId, Mail, motDePasse FROM utilisateur WHERE Mail = ?', email)

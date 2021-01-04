@@ -1,16 +1,10 @@
 // GET('/')
 exports.getIndexPage = async (req, res) => {
   const message = "Page d'accueil" 
-  /*
-  const products  = await query( 'SELECT * FROM product')
-  const categories = await query( 'SELECT * FROM category');
-  */
-
+  const user = req.session.user
   try {
     res.render('index', {
-     message
-    //  products,
-    // categories
+     message, user
     });
   } catch (e) {
     res.send(e)

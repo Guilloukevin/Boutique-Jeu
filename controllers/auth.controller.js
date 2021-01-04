@@ -63,10 +63,21 @@ exports.postLoginPage = async (req, res) => {
     }
 
      // 2 - Vérifier le mot de passe
-     const user = await querySql('SELECT UtilisateurId, Mail, motDePasse FROM utilisateur WHERE Mail = ?', email)
+     const user = await querySql('SELECT UtilisateurId, Nom, Prenom, Mail, motDePasse FROM utilisateur WHERE Mail = ?', email)
      const passwordCheck = await bcrypt.compare(motdepasse, user[0].motDePasse)
     if(!passwordCheck) {
     req.flash("message", "Mot de passe incorret")
     return res.redirect('/auth/login')
+   }
+   else {
+       // 3 - Créer une session
+              req.session.user = {
+                id : user[0].UtilisateurId,
+                firstname: user[0].Nom,
+                lastname: user[0].Prenom,
+                email: user[0].Mail
+              };
+              console.log("session ", req.session.user);
+              return res.redirect('/');
    }
 };

@@ -54,6 +54,8 @@ app.use(session({
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Middleware
+const verifyAuth = require('./middleware/verifyAuth')
 
 // Router
 const indexRoute = require('./routes/index.route');
@@ -62,10 +64,11 @@ const jeuxRoute = require('./routes/jeux.route');
 const authRoute = require('./routes/auth.Route');
 
 // URL
-app.use('/', indexRoute);
-app.use('/machine', machineRoute);
-app.use('/jeux', jeuxRoute);
 app.use('/auth', authRoute);
+app.use('/machine', verifyAuth.getVerifyAuth, machineRoute);
+app.use('/jeux', jeuxRoute);
+app.use('/', verifyAuth.getVerifyAuth, indexRoute);
+
 // 404
 app.get('*', function(req, res, next){
   res.status(404);

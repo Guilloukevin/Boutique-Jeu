@@ -1,7 +1,7 @@
 // Methode GET liste des jeux
 exports.getListeJeuxPage = async (req, res) => {
     
-    const jeux  = await query( 'SELECT Titre, JeuId, Prix, editeurId FROM jeu')
+    const jeux  = await querySql( 'SELECT Titre, JeuId, Prix, editeurId FROM jeu')
     try {
       res.render('Jeux/listeJeux', { 
           consoles : jeux
@@ -14,7 +14,7 @@ exports.getListeJeuxPage = async (req, res) => {
   // Methode GET modification jeux
   exports.getAjouterJeuxPage = async (req, res) => {
     
-    const jeux  = await query( 'SELECT Titre, JeuId, Prix, editeurId FROM jeu')
+    const jeux  = await querySql( 'SELECT Titre, JeuId, Prix, editeurId FROM jeu')
     try {
       res.render('Jeux/ajouterJeux', { 
           consoles : jeux
@@ -36,7 +36,7 @@ exports.getListeJeuxPage = async (req, res) => {
         const quantite = req.body.quantite
         const editeur = req.body.editeur
 
-        await query ("INSERT INTO jeu (Titre,Prix,Pegi,Description,Annee,Quantite,editeurId) VALUES (?,?,?,?,?,?,?)", [name,prix,pegi,description,annee,quantite,editeur], (err, result) => {
+        await querySql ("INSERT INTO jeu (Titre,Prix,Pegi,Description,Annee,Quantite,editeurId) VALUES (?,?,?,?,?,?,?)", [name,prix,pegi,description,annee,quantite,editeur], (err, result) => {
           if(err) {
             res.status(400).json({message : err })
           }
@@ -51,7 +51,7 @@ exports.getListeJeuxPage = async (req, res) => {
 
   exports.getSupprimerJeuxPage = async (req, res) => {
       
-      const supprimerJeux  = await query( 'SELECT Titre,JeuId FROM jeu')
+      const supprimerJeux  = await querySql( 'SELECT Titre,JeuId FROM jeu')
       try {
         res.render('Jeux/supprimerJeux', { 
             consoles : supprimerJeux

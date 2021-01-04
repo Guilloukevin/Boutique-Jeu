@@ -1,6 +1,6 @@
 exports.getListeMachinePage = async (req, res) => {
     
-  const machines  = await query( 'SELECT Nom, machineId FROM machine')
+  const machines  = await querySql( 'SELECT Nom, machineId FROM machine')
   try {
     res.render('machine/machines', { 
         consoles : machines
@@ -25,7 +25,7 @@ exports.postAjouteMachinePage = async (req, res) => {
   try {
       const name = req.body.nom
       // Hasher le mot de passe
-      await query ("INSERT INTO machine (Nom) VALUES (?)", [name], (err, result) => {
+      await querySql ("INSERT INTO machine (Nom) VALUES (?)", [name], (err, result) => {
         if(err) {
           res.status(400).json({message : err })
         }

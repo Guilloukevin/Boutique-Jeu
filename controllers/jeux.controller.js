@@ -24,7 +24,7 @@ exports.getListeJeuxPage = async (req, res) => {
     }
   };
 
-  // Methode POST modification jeux
+  // Methode POST Ajouter jeux
 
   exports.postAjouterJeuxPage = async (req, res) => {
     try {
@@ -47,17 +47,35 @@ exports.getListeJeuxPage = async (req, res) => {
       }
   }; 
 
-  // Suppression jeux
 
-  exports.getSupprimerJeuxPage = async (req, res) => {
-      
-      const supprimerJeux  = await querySql( 'SELECT Titre,JeuId FROM jeu')
+    // Modification des informations d'un jeu
+
+    exports.getModifierJeuxPage = async (req, res) => {
       try {
-        res.render('Jeux/supprimerJeux', { 
-            consoles : supprimerJeux
-        });
-      } catch (e) {
-        res.send(e)
+      res.render('jeux/modifierJeux');
+          } 
+      catch (e) {
+      res.send(e)
       }
     };
 
+    exports.putModifierJeuxPage = async (req, res) => {
+      try {
+          const name = req.body.nom
+          const prix = req.body.prix
+          const pegi = req.body.pegi
+          const description = req.body.description
+          const annee = req.body.annee
+          const quantite = req.body.quantite
+          const editeur = req.body.editeur
+  
+          await querySql ("Update INTO jeu (Titre,Prix,Pegi,Description,Annee,Quantite,editeurId) VALUES (?,?,?,?,?,?,?)", [name,prix,pegi,description,annee,quantite,editeur], (err, result) => {
+            if(err) {
+              res.status(400).json({message : err })
+            }
+            res.redirect("/jeux/liste-jeux")
+          } )
+        } catch (err) {
+          res.status(400).json({message : err })
+        }
+    }; 

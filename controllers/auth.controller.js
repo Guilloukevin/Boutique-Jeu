@@ -1,4 +1,6 @@
 const bcrypt = require("bcrypt");
+const validator = require("validator");
+const joi = require("joi");
 
 // GET -  Afficher la page d'inscription 
 exports.getRegisterPage = async (req, res) => {
@@ -18,6 +20,28 @@ exports.postRegisterPage = async (req, res) => {
     // 1 - Parser les données
     const { nom, prenom, email, motdepasse, role } = req.body
 
+    // 1.1 - Verifier le formulaire
+    // const emailValidator = validator.isEmail(email)
+    // if(!emailValidator == true)
+    // {
+    //     req.flash('message', 'Vous devez rentrer un email')
+    //     return res.redirect('/auth/register')
+    // }
+
+    const schema = joi.object().keys({
+        password: joi.string().min(6).max(20).required()
+      });
+      
+      const dataToValidate = {
+        password: motdepasse,
+    }
+    const result = schema.validate(dataToValidate);
+    if (result.error) {
+      // throw result.error.details[0].message;
+      req.flash('message', 'Le mot de passe doit être de 6 à 20 caractères')
+        return res.redirect('/auth/register')
+    }    
+
     // 2 - Si l'email existe    
     const emailExiste = await querySql ('SELECT COUNT(*) AS cnt FROM utilisateur WHERE Mail = ? ', [email])
     if (emailExiste[0].cnt > 0) {
@@ -26,7 +50,7 @@ exports.postRegisterPage = async (req, res) => {
     }
 
     // 3 - Ajouter l'utilisateur dans la base de donnée
-    try {
+    try { 
         // 4 - Hasher le mot de passe
         const salt = await bcrypt.genSalt(10);
         const mot_de_passe_hasher = await bcrypt.hash(motdepasse, salt);

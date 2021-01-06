@@ -4,8 +4,6 @@ const express = require("express")
 ,     machineController = require('../controllers/machine.controller')
 
 
-
- 
 // Machine
 router.get('/liste-machine', machineController.getListeMachinePage);
 router.get('/ajoute-machine', machineController.getAjouteMachinePage);

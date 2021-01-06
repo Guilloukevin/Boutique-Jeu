@@ -43,7 +43,7 @@ exports.postRegisterPage = async (req, res) => {
     }    
 
     // 2 - Si l'email existe    
-    const emailExiste = await querySql ('SELECT COUNT(*) AS cnt FROM utilisateur WHERE ?? = ? ', ["Mail",email])
+    const emailExiste = await querySql ('SELECT COUNT(*) AS cnt FROM utilisateur WHERE ?? = ? ', ["Mail",email]) // Requete préparé contre l'injection Sql
     if (emailExiste[0].cnt > 0) {
         req.flash('message', 'L\'email existe deja')
         return res.redirect('/auth/register')

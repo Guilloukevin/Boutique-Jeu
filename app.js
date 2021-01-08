@@ -6,13 +6,18 @@ const express = require('express')
 ,     port = 3000
 ,     session = require('express-session')
 ,     connectFlash = require('connect-flash')
-,     MySQLStore = require('express-mysql-session')(session);
+,     MySQLStore = require('express-mysql-session')(session)
+,     cookieParser = require('cookie-parser')
+,     csrf = require('csurf');
 
 // Active les messages Flash
 app.use(connectFlash());
 
 // .env
 require('dotenv').config()
+
+// Cookie parser
+app.use(cookieParser())
 
 // Middleware - Parser
 app.use(express.json())

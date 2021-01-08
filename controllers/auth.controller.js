@@ -10,16 +10,9 @@ exports.getRegisterPage = async (req, res) => {
 
 // POST - Créer un utilisateur 
 exports.postRegisterPage = async (req, res) => {
-    // Middleware : body parser, Parser les données dans l'url
-    // const nom = req.body.nom
-    // const prenom = req.body.prenom
-    // const email = req.body.email
-    // const motdepasse = req.body.motdepasse
-    // const role = req.body.role
-
+    
     // 1 - Parser les données
     const { nom, prenom, email, motdepasse, role } = req.body
-
     // 1.1 - Verifier le formulaire
     // const emailValidator = validator.isEmail(email)
     // if(!emailValidator == true)

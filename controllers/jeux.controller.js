@@ -1,3 +1,4 @@
+
 // Methode GET liste des jeux
 exports.getListeJeuxPage = async (req, res) => {
     
@@ -11,7 +12,7 @@ exports.getListeJeuxPage = async (req, res) => {
     }
   };
 
-  // Methode GET modification jeux
+  // Methode GET Ajout jeux
   exports.getAjouterJeuxPage = async (req, res) => {
     
     const jeux  = await querySql( 'SELECT Titre, JeuId, Prix, editeurId FROM jeu')
@@ -69,7 +70,7 @@ exports.getListeJeuxPage = async (req, res) => {
           const quantite = req.body.quantite
           const editeur = req.body.editeur
   
-          await querySql ("Update INTO jeu (Titre,Prix,Pegi,Description,Annee,Quantite,editeurId) VALUES (?,?,?,?,?,?,?)", [name,prix,pegi,description,annee,quantite,editeur], (err, result) => {
+          await querySql ("UPDATE jeu set Titre=?,Prix=?,Pegi=?,Description=?,Annee=?,Quantite=?,editeurId=??) WHERE JeuId = ?", [name,prix,pegi,description,annee,quantite,editeur], (err, result) => {
             if(err) {
               res.status(400).json({message : err })
             }
@@ -79,3 +80,24 @@ exports.getListeJeuxPage = async (req, res) => {
           res.status(400).json({message : err })
         }
     }; 
+
+// delete book
+exports.deleteSupprimerJeuxPage = async (req, res) => {
+
+  let id = req.params.JeuId;
+   
+  dbConn.query('DELETE FROM jeu WHERE JeuId = ' + id, function(err, result) {
+      //if(err) Renvoie l'erreur
+      if (err) {
+          // set flash message
+          req.flash('error', err)
+          // redirect to liste des jeux
+          res.redirect('/liste-jeux')
+      } else {
+          // flash message
+          req.flash('success', 'Jeu bien supprimer! ID = ' + id)
+          // redirect à la liste des jeux
+          res.redirect('/liste-jeux')
+      }
+  })
+}

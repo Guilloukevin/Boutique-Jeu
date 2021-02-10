@@ -21,16 +21,13 @@
                     <td><%=console.Prix%></td>
                     <td><%=console.editeurId%></td>
                     <td>
-                        <button type="button" class="btn btn-primary">Editer</button>
-                        <a class="btn btn-danger delete" onclick="return alert('Are You sure?')" href="./liste-jeux">Delete</a>
+                        <a href="/jeux/modifier-jeux"> <input type="button" value="Modifier un jeu" class="btn btn-primary"></a>
+                        <a class="btn btn-danger delete" onclick="return alert('Are You sure?')" href="/jeux/liste-jeux/<%=console.JeuId%>">Supprimer</a> 
+                        <a href="/jeux/ajouter-jeux"> <input type="button" value="Ajouter un jeu" class="btn btn-danger"></a>
                     </td>
-                </tr>
             <%});%>
         </tbody>
       </table>
-    </div>
-    <div class="col-md-12">
-      <a href="/jeux/ajouter-jeux"> <input type="button" value="Ajouter un jeu"> </a>
     </div>
   </div>
 </div>

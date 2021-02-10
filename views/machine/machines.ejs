@@ -2,7 +2,7 @@
 <div class="container"> 
   <div class="row">
     <div class="col-md-12">
-      <h1>Liste des consoles.</h1>
+      <h1>Liste des machines.</h1>
       <table class="table">
         <thead>
           <tr>
@@ -18,16 +18,14 @@
                     <td><%=console.Nom%></td>
                     <td>
                         <button type="button" class="btn btn-primary">Editer</button>
-                        <button type="button" class="btn btn-danger">Supprimer</button>
+                        <button type="button" class="btn btn-primary">Supprimer</button>
+                        <a href="/machine/ajoute-machine"> <input type="button" value="Ajouter une machine" class="btn btn-danger"> </a>
                     </td>
                 </tr>
             <%});%>
         </tbody>
       </table>
     </div>
-    <div class="col-md-12">
-      <a href="/machine/ajoute-machine"> <input type="button" value="Ajouter une machine"> </a>
-  </div>
   </div>
 </div>
   <%- include('../partials/footer')-%> 

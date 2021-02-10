@@ -12,6 +12,18 @@ exports.getListeJeuxPage = async (req, res) => {
     }
   };
 
+  // Get by Id
+  exports.getListeJeuxPageId = async (req, res) => {
+    await querySql('SELECT * FROM jeu WHERE jeuId = ?', [req.params.id], (err, rows, fields) =>{
+      if(!err)
+      res.send(rows);
+      else
+      console.log(err)
+    })
+  };
+
+
+
   // Methode GET Ajout jeux
   exports.getAjouterJeuxPage = async (req, res) => {
     
@@ -70,34 +82,26 @@ exports.getListeJeuxPage = async (req, res) => {
           const quantite = req.body.quantite
           const editeur = req.body.editeur
   
-          await querySql ("UPDATE jeu set Titre=?,Prix=?,Pegi=?,Description=?,Annee=?,Quantite=?,editeurId=??) WHERE JeuId = ?", [name,prix,pegi,description,annee,quantite,editeur], (err, result) => {
+          await querySql ("UPDATE jeu SET Titre=?,Prix=?,Pegi=?,Description=?,Annee=?,Quantite=?,editeurId=?) WHERE JeuId = ?", [name,prix,pegi,description,annee,quantite,editeur], (err, result) => {
             if(err) {
               res.status(400).json({message : err })
             }
-            res.redirect("/jeux/liste-jeux")
+            res.redirect("/jeux/modifier-jeux")
           } )
         } catch (err) {
           res.status(400).json({message : err })
         }
     }; 
 
-// delete book
-exports.deleteSupprimerJeuxPage = async (req, res) => {
+// Supprimer un jeu
+exports.deleteSupprimerJeuxPageId = async (req, res) => {
+  const { id } = req.params;
 
-  let id = req.params.JeuId;
-   
-  dbConn.query('DELETE FROM jeu WHERE JeuId = ' + id, function(err, result) {
-      //if(err) Renvoie l'erreur
-      if (err) {
-          // set flash message
-          req.flash('error', err)
-          // redirect to liste des jeux
-          res.redirect('/liste-jeux')
-      } else {
-          // flash message
-          req.flash('success', 'Jeu bien supprimer! ID = ' + id)
-          // redirect à la liste des jeux
-          res.redirect('/liste-jeux')
-      }
+  await querySql('DELETE FROM jeu WHERE JeuId = ?', [id], (err, rows, fields) =>{
+    if(!err)
+    res.send('Deleted !');
+    else
+    console.log(err);
   })
-}
+};
+

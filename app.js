@@ -8,10 +8,18 @@ const express = require('express')
 ,     connectFlash = require('connect-flash')
 ,     MySQLStore = require('express-mysql-session')(session)
 ,     cookieParser = require('cookie-parser')
-,     csrf = require('csurf');
+,     csrf = require('csurf')
+,     bodyParser = require('body-parser');
 
 // Active les messages Flash
 app.use(connectFlash());
+
+//start body-parser configuration
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+}));
+//end body-parser configuration
 
 // .env
 require('dotenv').config()
@@ -80,6 +88,7 @@ app.get('*', function(req, res, next){
   res.render('404.ejs');
 });
  
+
 // Listen
 app.listen(port, () => {
   console.log(`Tourne sur le port : ${port}`);

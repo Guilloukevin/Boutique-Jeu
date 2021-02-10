@@ -1,0 +1,30 @@
+.text-boutique{
+	text-align: center;
+}
+
+.text-index{
+	text-align: center;
+}
+
+@media screen and (max-width:767px){
+    .btn-danger{
+		font-size: 0.5rem;
+	}
+}
+@media screen and (max-width:767px){
+    .btn-primary{
+		font-size: 0.5rem;
+	}
+}
+
+@media screen and (max-width:600px){
+    .btn-primary{
+		padding: .150rem .45rem;
+	}
+}
+
+@media screen and (max-width:600px){
+    .btn-danger{
+		padding: .150rem .45rem;
+	}
+}

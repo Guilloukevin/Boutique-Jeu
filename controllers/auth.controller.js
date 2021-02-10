@@ -13,13 +13,6 @@ exports.postRegisterPage = async (req, res) => {
     
     // 1 - Parser les données
     const { nom, prenom, email, motdepasse, role } = req.body
-    // 1.1 - Verifier le formulaire
-    // const emailValidator = validator.isEmail(email)
-    // if(!emailValidator == true)
-    // {
-    //     req.flash('message', 'Vous devez rentrer un email')
-    //     return res.redirect('/auth/register')
-    // }
 
     const schema = joi.object().keys({
         password: joi.string().min(6).max(20).required()
@@ -48,7 +41,8 @@ exports.postRegisterPage = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const mot_de_passe_hasher = await bcrypt.hash(motdepasse, salt);
         // res.send(`Le mot de passe hasher est : ${mot_de_passe_hasher}`)
-        await querySql ('INSERT INTO utilisateur (Nom,Prenom,Mail,motDePasse,roleId) VALUES (?,?,?,?,? )', [nom,prenom,email,mot_de_passe_hasher,role], 
+        await querySql ('INSERT INTO utilisateur (Nom,Prenom,Mail,motDePasse,roleId) VALUES (?,?,?,?,? )', 
+        [nom,prenom,email,mot_de_passe_hasher,role], 
         (err, result) => {
             if(err) {
                 req.flash("message", `Il y a une erreur ${err}`);
